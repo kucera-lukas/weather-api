@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "weather-api"
+version = "0.1.0"
+description = "Simplified information about weather forecast"
+authors = ["Lukas Kucera <lukas.kucera.g@protonmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/kucera-lukas/weather-api"
+
+[tool.black]
+line-length = 88
+include = '^.+\.py$'
+
+[tool.isort]
+profile = "black"
+src_paths = ["weather", "tests"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.25.1"
+Django = "^3.2.4"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.13.0"
+pytest = "^6.2.3"
+pytest-mock = "^3.6.1"
+pytest-cov = "^2.12.0"
+devtools = "^0.6.1"
+mypy = "^0.812"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
