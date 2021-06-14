@@ -19,6 +19,8 @@ src_paths = ["weather", "tests"]
 python = "^3.9"
 requests = "^2.25.1"
 Django = "^3.2.4"
+djangorestframework = "^3.12.4"
+python-dotenv = "^0.17.1"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.13.0"
