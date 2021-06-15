@@ -2,12 +2,7 @@
 from __future__ import annotations
 
 import functools as fn
-from datetime import datetime
-from typing import TYPE_CHECKING
-
-
-if TYPE_CHECKING:
-    from datetime import date
+from datetime import datetime, date
 
 
 @fn.cache
@@ -26,8 +21,14 @@ def api_str_to_date(dt: str, /) -> date:
 
     :param dt: The string to convert
 
+    :raises ValueError: if given date is invalid
+
     """
     parsed_date = datetime.strptime(dt, "%d-%m-%Y").date()
+
+    if not validate_date(parsed_date):
+        raise ValueError(f"The date {dt!r} is invalid.")
+
     return parsed_date
 
 
@@ -37,7 +38,7 @@ def validate_date(dt: date, /) -> bool:
     :param dt: Date to validate
 
     """
-    now = datetime.today()
+    now = date.today()
     return dt > now
 
 
@@ -47,6 +48,6 @@ def days_in_advance(dt: date, /) -> int:
     :param dt: The date to check
 
     """
-    now = datetime.today()
+    now = date.today()
     delta = dt - now
-    return delta.days
+    return delta.days + 1
