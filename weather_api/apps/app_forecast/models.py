@@ -8,4 +8,8 @@ class Forecast(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     country_code = models.CharField(max_length=2)
 
-    result = models.CharField(max_length=10)
+    forecast = models.CharField(max_length=10)
+
+    def __str__(self) -> str:
+        """Return string representation of the model."""
+        return str(self.forecast)
