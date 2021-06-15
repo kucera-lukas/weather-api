@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 def api(date: str, country_code: str) -> dict[str, str]:
     """Return simple weather forecast.
 
-    :param date: Date of weather
+    :param date: Date of wanted weather forecast
     :param country_code: Country code of the wanted country
 
     :raises ValueError: if some user input is wrong
