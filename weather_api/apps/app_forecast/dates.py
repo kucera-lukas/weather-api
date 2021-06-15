@@ -5,7 +5,7 @@ import functools as fn
 from datetime import datetime, date
 
 
-@fn.cache
+@fn.lru_cache(maxsize=10)
 def date_to_api_format(dt: date, /) -> str:
     """Return a date in ``WeatherAPI`` datetime format.
 
@@ -15,7 +15,7 @@ def date_to_api_format(dt: date, /) -> str:
     return str(dt.strftime("%Y-%m-%d"))
 
 
-@fn.cache
+@fn.lru_cache(maxsize=10)
 def api_str_to_date(dt: str, /) -> date:
     """Return string converted from api request to a ``date`` object.
 
@@ -24,7 +24,7 @@ def api_str_to_date(dt: str, /) -> date:
     :raises ValueError: if given date is invalid
 
     """
-    parsed_date = datetime.strptime(dt, "%d-%m-%Y").date()
+    parsed_date = datetime.strptime(dt, "%Y-%m-%d").date()
 
     if not validate_date(parsed_date):
         raise ValueError(f"The date {dt!r} is invalid.")
