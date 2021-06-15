@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date
 
 from django.db import models
 
@@ -9,8 +10,8 @@ from django.db import models
 class Forecast(models.Model):
     """Forecast database model."""
 
-    date = models.DateField(auto_now_add=True, unique=True)
-    country_code = models.CharField(max_length=2)
+    date = models.DateField(unique=True, db_index=True, default=date.today)
+    country_code = models.CharField(max_length=2, db_index=True)
 
     forecast = models.CharField(max_length=10)
 

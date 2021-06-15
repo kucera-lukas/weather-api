@@ -1,9 +1,11 @@
 """Main logic behind retrieving information about weather."""
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING, Any, Iterator
 
 import requests
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
 from . import dates, database
@@ -27,16 +29,6 @@ def api(date: str, country_code: str) -> Forecast:
 
     """
     try:
-        city = get_city(country_code=country_code)
-    except ValueError as e:
-        raise InvalidQueryParams(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            message=e.args[0],
-            field="country_code",
-            value=country_code,
-        ) from e
-
-    try:
         parsed_date = dates.api_str_to_date(date)
     except ValueError as e:
         raise InvalidQueryParams(
@@ -46,12 +38,30 @@ def api(date: str, country_code: str) -> Forecast:
             value=date,
         ) from e
 
+    with suppress(ObjectDoesNotExist):
+        obj = database.get(date=parsed_date, country_code=country_code)
+        return obj
+
+    try:
+        city = get_city(country_code=country_code)
+    except ValueError as e:
+        raise InvalidQueryParams(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=e.args[0],
+            field="country_code",
+            value=country_code,
+        ) from e
+
     days = dates.days_in_advance(parsed_date)
     response = get_response(city=city, days=days)
     avg_temp = average_temperature(response=response, request_date=parsed_date)
     result = get_simple_forecast(avg_temp=avg_temp)
 
-    forecast = database.create(country_code=country_code, result=result)
+    forecast = database.create(
+        date=parsed_date,
+        country_code=country_code,
+        result=result,
+    )
     return forecast
 
 
