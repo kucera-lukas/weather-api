@@ -1,6 +1,7 @@
 """Main logic behind retrieving information about weather."""
 from __future__ import annotations
 
+import functools as fn
 from contextlib import suppress
 from typing import TYPE_CHECKING, Any, Iterator
 
@@ -8,8 +9,8 @@ import requests
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
-from . import dates, database
-from .constants import COUNTRY_CITIES, API_URL
+from . import database, dates
+from .constants import API_URL, COUNTRY_CITIES
 from .exceptions import InvalidQueryParams
 
 if TYPE_CHECKING:
@@ -119,6 +120,7 @@ def average_temperature(response: dict, request_date: TDate) -> float:
     return result
 
 
+@fn.lru_cache(maxsize=None, typed=True)
 def get_simple_forecast(avg_temp: float) -> str:
     """Return a simple forecast representation.
 

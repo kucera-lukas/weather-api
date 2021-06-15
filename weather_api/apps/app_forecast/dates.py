@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import functools as fn
-from datetime import datetime, date
+from datetime import date, datetime
 
 
 @fn.lru_cache(maxsize=10)
@@ -24,6 +24,7 @@ def api_str_to_date(dt: str, /) -> date:
     :raises ValueError: if given date is invalid
 
     """
+    # also raises ValueError
     parsed_date = datetime.strptime(dt, "%Y-%m-%d").date()
 
     if not validate_date(parsed_date):
