@@ -6,15 +6,17 @@ from typing import TYPE_CHECKING, Any, Iterator
 import requests
 from rest_framework import status
 
-from . import dates
+from . import dates, database
 from .constants import COUNTRY_CITIES, API_URL
 from .exceptions import InvalidQueryParams
 
 if TYPE_CHECKING:
     from datetime import date as TDate
 
+    from .models import Forecast
 
-def api(date: str, country_code: str) -> dict[str, str]:
+
+def api(date: str, country_code: str) -> Forecast:
     """Return simple weather forecast.
 
     :param date: Date of wanted weather forecast
@@ -47,7 +49,10 @@ def api(date: str, country_code: str) -> dict[str, str]:
     days = dates.days_in_advance(parsed_date)
     response = get_response(city=city, days=days)
     avg_temp = average_temperature(response=response, request_date=parsed_date)
-    return get_simple_forecast(avg_temp=avg_temp)
+    result = get_simple_forecast(avg_temp=avg_temp)
+
+    forecast = database.create(country_code=country_code, result=result)
+    return forecast
 
 
 def get_city(country_code: str) -> str:
@@ -104,7 +109,7 @@ def average_temperature(response: dict, request_date: TDate) -> float:
     return result
 
 
-def get_simple_forecast(avg_temp: float) -> dict[str, str]:
+def get_simple_forecast(avg_temp: float) -> str:
     """Return a simple forecast representation.
 
     :param avg_temp: Average temperature of the day forecast to simplify
@@ -116,4 +121,4 @@ def get_simple_forecast(avg_temp: float) -> dict[str, str]:
         output = "soso"
     else:
         output = "bad"
-    return {"forecast": output}
+    return output

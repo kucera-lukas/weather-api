@@ -15,7 +15,7 @@ class InvalidQueryParams(Exception):
         self.value = value
 
     def __repr__(self) -> str:
-        """Return information about this class."""
+        """Provide information about this class."""
         return json.dumps(
             {"detail": self.message, "field": self.field, "value": self.value},
         )

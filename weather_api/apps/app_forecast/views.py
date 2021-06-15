@@ -45,4 +45,4 @@ def forecast_endpoint(request) -> Response:
             data={"detail": "something went wrong, sorry..."},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    return Response(data=result, status=status.HTTP_200_OK)
+    return Response(data=json.loads(str(result)), status=status.HTTP_200_OK)
