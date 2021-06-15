@@ -28,7 +28,7 @@ def api_str_to_date(dt: str, /) -> date:
     parsed_date = datetime.strptime(dt, "%Y-%m-%d").date()
 
     if not validate_date(parsed_date):
-        raise ValueError(f"date is not valid")
+        raise ValueError(f"time data {dt!r} can't point to the past")
 
     return parsed_date
 
