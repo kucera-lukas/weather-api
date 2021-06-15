@@ -27,7 +27,7 @@ def api_str_to_date(dt: str, /) -> date:
     parsed_date = datetime.strptime(dt, "%Y-%m-%d").date()
 
     if not validate_date(parsed_date):
-        raise ValueError(f"The date {dt!r} is invalid.")
+        raise ValueError(f"date is not valid")
 
     return parsed_date
 

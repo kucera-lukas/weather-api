@@ -4,9 +4,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Iterator
 
 import requests
+from rest_framework import status
 
 from . import dates
 from .constants import COUNTRY_CITIES, API_URL
+from .exceptions import InvalidQueryParams
 
 if TYPE_CHECKING:
     from datetime import date as TDate
@@ -18,12 +20,30 @@ def api(date: str, country_code: str) -> dict[str, str]:
     :param date: Date of wanted weather forecast
     :param country_code: Country code of the wanted country
 
-    :raises ValueError: if some user input is wrong
+    :raises InvalidQueryParams: if some user input is wrong
     :raises HTTPError: if something goes wrong with ``WeatherAPI`` request
 
     """
-    city = get_city(country_code=country_code)
-    parsed_date = dates.api_str_to_date(date)
+    try:
+        city = get_city(country_code=country_code)
+    except ValueError as e:
+        raise InvalidQueryParams(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=e.args[0],
+            field="country_code",
+            value=country_code,
+        ) from e
+
+    try:
+        parsed_date = dates.api_str_to_date(date)
+    except ValueError as e:
+        raise InvalidQueryParams(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=e.args[0],
+            field="date",
+            value=date,
+        ) from e
+
     days = dates.days_in_advance(parsed_date)
     response = get_response(city=city, days=days)
     avg_temp = average_temperature(response=response, request_date=parsed_date)
@@ -41,7 +61,7 @@ def get_city(country_code: str) -> str:
     try:
         city = COUNTRY_CITIES[country_code]
     except KeyError as e:
-        raise ValueError(f"Country code {country_code!r} is not valid") from e
+        raise ValueError("country code is not valid") from e
     return city
 
 
