@@ -23,6 +23,8 @@ djangorestframework = "^3.12.4"
 python-dotenv = "^0.17.1"
 django-heroku = "^0.3.1"
 gunicorn = "^20.1.0"
+psycopg2 = "^2.8.6"
+psycopg2-binary = "^2.8.6"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.13.0"
