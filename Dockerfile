@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:latest
 
 MAINTAINER lukas.kucera.g@protonmail.com
 
@@ -10,9 +10,8 @@ RUN python -m pip install poetry
 WORKDIR /app
 COPY poetry.lock pyproject.toml /app/
 
-RUN pip install psycopg2-binary \
-    && poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi --no-dev
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
 
 COPY . /app/
 

@@ -14,9 +14,8 @@ import os
 from pathlib import Path
 
 import dj_database_url
-from dotenv import load_dotenv
-
 import django_heroku
+from dotenv import load_dotenv
 
 # load environment variables
 load_dotenv()
@@ -47,7 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "apps.app_forecast",
+    "weather_api.apps.app_forecast",
 ]
 
 MIDDLEWARE = [
@@ -60,7 +59,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "project.urls"
+ROOT_URLCONF = "weather_api.project.urls"
 
 TEMPLATES = [
     {
@@ -78,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "project.wsgi.application"
+WSGI_APPLICATION = "weather_api.project.wsgi.application"
 
 
 # Database
