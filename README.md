@@ -1,10 +1,10 @@
 # weather-api
 
 Get simplified information about weather forecast
-* [Website](https://django-weatherapi.herokuapp.com)
+* [Website endpoint](https://django-weatherapi.herokuapp.com/weather-forecast/)
 
 ## Usage
-* GET /weather-forecast/?date={YYYY-MM-DD}&country_code={ISO_CODE_2}
+* GET [https://django-weatherapi.herokuapp.com/weather-forecast/?date={YYYY-MM-DD}&country_code={ISO_CODE_2}](https://django-weatherapi.herokuapp.com/weather-forecast/?date={YYYY-MM-DD}&country_code={ISO_CODE_2})
 * python weather_api/manage.py weather_forecast 2021-06-16 CZ
 
 ## License
