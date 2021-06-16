@@ -1,7 +1,7 @@
 # weather-api
 
 Get simplified information about weather forecast
-* [Website](https://dashboard.heroku.com/apps/django-weatherapi)
+* [Website](https://django-weatherapi.herokuapp.com)
 
 ## Usage
 * GET /weather-forecast/?date={YYYY-MM-DD}&country_code={ISO_CODE_2}
