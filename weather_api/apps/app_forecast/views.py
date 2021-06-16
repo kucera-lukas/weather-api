@@ -31,7 +31,7 @@ def forecast_endpoint(request) -> Response:
         )
 
     try:
-        result = forecast.api(
+        result = forecast.main(
             date=date,
             country_code=country_code,
         )
@@ -40,6 +40,7 @@ def forecast_endpoint(request) -> Response:
             data=json.loads(repr(e)),
             status=status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
+    # if WeatherAPI request fails
     except HTTPError:
         return Response(
             data={"detail": "something went wrong, sorry..."},

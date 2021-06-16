@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from .models import Forecast
 
 
-def api(date: str, country_code: str) -> Forecast:
+def main(date: str, country_code: str) -> Forecast:
     """Return simple weather forecast.
 
     :param date: Date of wanted weather forecast
@@ -55,7 +55,15 @@ def api(date: str, country_code: str) -> Forecast:
 
     days = dates.days_in_advance(parsed_date)
     response = get_response(city=city, days=days)
-    avg_temp = average_temperature(response=response, request_date=parsed_date)
+    try:
+        avg_temp = average_temperature(response=response, request_date=parsed_date)
+    except ValueError as e:
+        raise InvalidQueryParams(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            message=f"our internal weather provider does not have forecast data about the date {date!r}",
+            field="date",
+            value=date,
+        ) from e
     result = get_simple_forecast(avg_temp=avg_temp)
 
     forecast = database.create(

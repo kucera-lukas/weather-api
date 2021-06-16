@@ -29,12 +29,13 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         """Handle a command."""
         try:
-            result = forecast.api(
+            result = forecast.main(
                 date=kwargs["date"],
                 country_code=kwargs["country_code"],
             )
         except InvalidQueryParams as e:
             raise CommandError(e.message)
+        # if WeatherAPI request fails
         except HTTPError:
             raise CommandError(message="something went wrong, sorry...")
 
