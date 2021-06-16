@@ -39,6 +39,8 @@ def main(date: str, country_code: str) -> Forecast:
             value=date,
         ) from e
 
+    # if we find database entry, return it
+    # otherwise suppress exception and continue
     with suppress(ObjectDoesNotExist):
         obj = database.get(date=parsed_date, country_code=country_code)
         return obj

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "weather-api"
-version = "0.1.0"
+version = "1.0.0"
 description = "Simplified information about weather forecast"
 authors = ["Lukas Kucera <lukas.kucera.g@protonmail.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ include = '^.+\.py$'
 
 [tool.isort]
 profile = "black"
-src_paths = ["weather", "tests"]
+src_paths = ["weather_api"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
