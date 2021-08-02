@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app_forecast', '0002_rename_result_forecast_forecast'),
+        ("app_forecast", "0002_rename_result_forecast_forecast"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='forecast',
-            name='date',
+            model_name="forecast",
+            name="date",
             field=models.DateField(auto_now_add=True, unique=True),
         ),
     ]
