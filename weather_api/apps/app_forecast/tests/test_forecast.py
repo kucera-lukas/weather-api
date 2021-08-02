@@ -5,6 +5,7 @@ from datetime import date
 from typing import TYPE_CHECKING
 
 import pytest
+
 from weather_api.apps.app_forecast import forecast
 
 if TYPE_CHECKING:

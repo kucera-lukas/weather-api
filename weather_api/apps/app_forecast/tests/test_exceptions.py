@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 
 import pytest
+
 from weather_api.apps.app_forecast.exceptions import InvalidQueryParams
 
 
